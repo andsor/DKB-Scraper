@@ -21,6 +21,7 @@ PostboxDocument = collections.namedtuple(
         'title',
         'is_read',
         'url',
+        'filename',
     ]
 )
 
@@ -129,10 +130,14 @@ class DKBSession(object):
             # document download link
             url = row.find(title='Speichern').find_parent().get('href')
 
+            # filename
+            filename = url.split('/')[-1].split('?')[0] + '.pdf'
+
             yield PostboxDocument(
                 is_read=is_read,
                 title=title,
                 url=url,
+                filename=filename,
             )
 
     def download_document(self, document, destinations):
